@@ -1,0 +1,80 @@
+#!/bin/bash
+# Pedro Kukul - Test 2
+
+# ==========================================================================================
+# Check for the correct number of arguments
+# ==========================================================================================
+
+if [ $# -ne 2 ]; then
+    echo "You need to provide two arguments for this script to work."
+    echo "Usage: make-go-dir <root directory name> <identifier name>"
+    exit 1
+fi
+
+ROOT_DIR=$1
+IDENTIFIER=$2
+
+# ==========================================================================================
+# User Confirmation
+# ==========================================================================================
+
+echo "I am about to create a directory structure named '$ROOT_DIR'."
+read -p "Do you want me to continue? [Yes/no] " ANSWER
+
+if [[ "$ANSWER" != "Yes" && "$ANSWER" != "yes" ]]; then
+    echo "Abort."
+    exit 0
+fi
+
+echo "Creating directory structure..."
+
+mkdir -p "$ROOT_DIR"/{bin,cmd/api,internals,migrations,remote}
+
+# ==========================================================================================
+# Creating the go files
+# ==========================================================================================
+cat <<EOF > "$ROOT_DIR/cmd/api/main.go"
+// File: cmd/api/main.go
+
+package main
+
+import "fmt"
+
+func main() {
+    fmt.Println("Hello world!")
+}
+EOF
+
+# ==========================================================================================
+# Create go.mod with identifier
+# ==========================================================================================
+echo "module ${ROOT_DIR}.${IDENTIFIER}" > "$ROOT_DIR/go.mod"
+
+# ==========================================================================================
+# Create make-file 
+# ==========================================================================================
+touch "$ROOT_DIR/Makefile"
+
+cat <<EOF > "$ROOT_DIR/Makefile"
+.PHONY: run
+run:
+	@echo "starting application..."
+	@go run ./cmd/api/
+EOF
+
+# ==========================================================================================
+# Final user message
+# ==========================================================================================
+echo "I have created a *main.go* file for you to test the directory structure."
+echo "Type *go run ./cmd/api* or *make run* at the root directory of your project to test your project."
+echo "Thank you."
+
+
+
+
+
+
+
+
+
+
