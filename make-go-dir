@@ -27,7 +27,6 @@ if [[ "$ANSWER" != "Yes" && "$ANSWER" != "yes" ]]; then
 fi
 
 echo "Creating directory structure..."
-
 mkdir -p "$ROOT_DIR"/{bin,cmd/api,internals,migrations,remote}
 
 # ==========================================================================================
@@ -51,7 +50,7 @@ EOF
 echo "module ${ROOT_DIR}.${IDENTIFIER}" > "$ROOT_DIR/go.mod"
 
 # ==========================================================================================
-# Create make-file 
+# Create Makefile 
 # ==========================================================================================
 touch "$ROOT_DIR/Makefile"
 
